@@ -1,0 +1,27 @@
+body {
+  background-color: lightblue;
+  padding: 3em;
+}
+h1 {
+  width: 100%;
+  text-align: center;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.textGuess {
+  width: 100%;
+  padding: 1em 0 0 30%;
+}
+.levels {
+  margin-left: 5%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.levels > button {
+  font-size: 1em;
+  width: 7em;
+}
