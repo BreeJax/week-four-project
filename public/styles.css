@@ -1,11 +1,15 @@
 body {
   background-color: lightblue;
   padding: 3em;
+  letter-spacing: 3px;
 }
 h1 {
   width: 100%;
+}
+h2 {
   text-align: center;
 }
+
 .header {
   display: flex;
   flex-direction: row;
@@ -19,6 +23,11 @@ h1 {
   margin-left: 5%;
   display: flex;
   justify-content: space-around;
+}
+button {
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
 }
 
 .levels > button {
