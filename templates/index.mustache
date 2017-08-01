@@ -9,16 +9,19 @@
     <h1>Let's play a game</h1>
     <div class="header">
 
-      <h4>Mystery Word</h4>
+      <h3>Mystery Word</h3>
       <h4>You have (#) guesses left</h4>
   </div>
   <h2>{{hiddenWord}}</h2>
-  <form class="textGuess" action="/" method="post">
+  <form class="textGuess" action="/guess" method="post">
     <input type="text" name="letterGuess" value="">
-    <button type="submit" name="button"> Make a guess</button>
+    <button type="submit" name="guessButton"> Make a guess</button>
   </form>
-  <h3>Letters guessed:</h3>
-  <p>guessed letters here</p>
+  <h2>Letters guessed:</h2>
+  <h4>{{#letterGuessed}}
+    {{.}}
+    {{/letterGuessed}}
+  </h4>
 
   <div class="levels">
     <button type="button" name="easy">Easy</button>
