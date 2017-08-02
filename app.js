@@ -26,39 +26,31 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res) => {
-  const letterGuess = req.session.letterGuess || [] //part of sessions
-  let numberWrong = req.session.numberWrong || 8
+  const letterGuess = req.session.letterGuess || [] //part of sessions- keeping the letters guessed before
+  let numberWrong = req.session.numberWrong || 8 //keeping the number of guesses in sessions
 
-  //where random word is chosen
   if (!req.session.randomWord) {
-    req.session.randomWord = words[Math.floor(Math.random() * words.length)]
+    //if there is NOT a random word
+    req.session.randomWord = words[Math.floor(Math.random() * words.length)] //choose a random word
   }
-  let randomWord = req.session.randomWord
+  let randomWord = req.session.randomWord //random word is the one in session
   let PLACEHOLDER = "_"
-  let hiddenWord = randomWord
-    .split("")
+  let hiddenWord = randomWord //hidden word is the same as the random word
+    .split("") //taking the word appart
     .map(letter => {
-      return letterGuess.includes(letter) ? letter : PLACEHOLDER
+      //mapping out the word and finding everything inside of it and where it lays
+      return letterGuess.includes(letter) ? letter : PLACEHOLDER //if the letter guessed IS in it, place the letter, otherwise place a PLACEHOLDER
     })
-    .join("")
+    .join("") //join together the results
 
   res.render("index", { hiddenWord: hiddenWord, letterGuessed: req.session.letterGuess, numberWrong: numberWrong })
 })
-//where would I send people are guess is wrong? post?
-//where do I show wrong guesses
-
-// app.post("/", (req, res) => {
-//   //wher the guesses go
-//   //where you put the page that tells people if they win
-//   //where you put the page that tells people if they lose
-// })
 
 app.post("/guess", (req, res) => {
   const letterGuess = req.session.letterGuess || []
   const randomWord = req.session.randomWord || []
   let numberWrong = req.session.numberWrong || 8
 
-  // letters.push({ id: todos.length + 1, completed: false, description: description })
   letterGuess.push(req.body.letterGuess)
   req.session.letterGuess = letterGuess
 
@@ -72,14 +64,55 @@ app.post("/guess", (req, res) => {
 
   req.session.numberWrong = numberWrong
 
-  //
-  // let numberWrong = randomWord.filter(guess => {
-  //   if (letterGuess === )
-  // })
+  // calculate the number of _
+  let PLACEHOLDER = "_"
+  let countOfPlaceHolders = randomWord //hidden word is the same as the random word
+    .split("") //taking the word appart
+    .map(letter => {
+      //mapping out the word and finding everything inside of it and where it lays
+      return letterGuess.includes(letter) ? letter : PLACEHOLDER //if the letter guessed IS in it, place the letter, otherwise place a PLACEHOLDER
+    })
+    .filter(letter => {
+      return letter === PLACEHOLDER
+    }).length
 
-  res.redirect("/")
+  if (numberWrong === 0) {
+    res.redirect("/youlose")
+  } else if (numberWrong >= 1 && countOfPlaceHolders === 0) {
+    res.redirect("/youwin")
+  } else {
+    res.redirect("/")
+  }
 })
+//if numberWrong = 0 && word contains placeholders, res.render (you lose)
+
+// in numberWrong = >= 0 && word contains no placeholders, res.render (you win)
 
 app.listen(3000, () => {
   console.log("I've got the magic in me!")
 })
+
+// app.post("/guess", (req, res) => {
+//   req.checkBody({
+//     fullName: {
+//       isLength: {
+//         options: [{ min: 1, max: 100 }]
+//       },
+//       errorMessage: "Invalid Name- must be 2 to 100 characters long"
+//     },
+//     email: {
+//       isEmail: {
+//         errorMessage: "Invalid Email"
+//       }
+//     },
+//     birthYear: {
+//       validateYear: {
+//         options: { minYear: 1900, maxYear: 2017 }
+//       },
+//       errorMessage: "Invalid Birth Year"
+//     },
+//     job: {
+//       notEmpty: true,
+//       errorMessage: "Invalid Job"
+//     }
+//   })
