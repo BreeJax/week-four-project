@@ -27,6 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res) => {
   const letterGuess = req.session.letterGuess || [] //part of sessions
+  let numberWrong = req.session.numberWrong || 8
+
   //where random word is chosen
   if (!req.session.randomWord) {
     req.session.randomWord = words[Math.floor(Math.random() * words.length)]
@@ -40,7 +42,7 @@ app.get("/", (req, res) => {
     })
     .join("")
 
-  res.render("index", { hiddenWord: hiddenWord, letterGuessed: req.session.letterGuess })
+  res.render("index", { hiddenWord: hiddenWord, letterGuessed: req.session.letterGuess, numberWrong: numberWrong })
 })
 //where would I send people are guess is wrong? post?
 //where do I show wrong guesses
@@ -54,10 +56,26 @@ app.get("/", (req, res) => {
 app.post("/guess", (req, res) => {
   const letterGuess = req.session.letterGuess || []
   const randomWord = req.session.randomWord || []
+  let numberWrong = req.session.numberWrong || 8
 
   // letters.push({ id: todos.length + 1, completed: false, description: description })
   letterGuess.push(req.body.letterGuess)
   req.session.letterGuess = letterGuess
+
+  let countOfMatches = randomWord.split("").filter(letter => {
+    return letter === req.body.letterGuess
+  }).length
+
+  if (countOfMatches == 0) {
+    numberWrong -= 1
+  }
+
+  req.session.numberWrong = numberWrong
+
+  //
+  // let numberWrong = randomWord.filter(guess => {
+  //   if (letterGuess === )
+  // })
 
   res.redirect("/")
 })
