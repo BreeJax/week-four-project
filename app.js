@@ -46,6 +46,8 @@ app.get("/", (req, res) => {
   res.render("index", { hiddenWord: hiddenWord, letterGuessed: req.session.letterGuess, numberWrong: numberWrong })
 })
 
+app.post("/easy", (req, res) => {})
+
 app.post("/guess", (req, res) => {
   const letterGuess = req.session.letterGuess || []
   const randomWord = req.session.randomWord || []
@@ -53,7 +55,6 @@ app.post("/guess", (req, res) => {
 
   letterGuess.push(req.body.letterGuess)
   req.session.letterGuess = letterGuess
-
   let countOfMatches = randomWord.split("").filter(letter => {
     return letter === req.body.letterGuess
   }).length
@@ -77,42 +78,16 @@ app.post("/guess", (req, res) => {
     }).length
 
   if (numberWrong === 0) {
-    res.redirect("/youlose")
+    req.session.destroy()
+    res.render("youlose")
   } else if (numberWrong >= 1 && countOfPlaceHolders === 0) {
-    res.redirect("/youwin")
+    req.session.destroy()
+    res.render("youwin")
   } else {
     res.redirect("/")
   }
 })
-//if numberWrong = 0 && word contains placeholders, res.render (you lose)
-
-// in numberWrong = >= 0 && word contains no placeholders, res.render (you win)
 
 app.listen(3000, () => {
   console.log("I've got the magic in me!")
 })
-
-// app.post("/guess", (req, res) => {
-//   req.checkBody({
-//     fullName: {
-//       isLength: {
-//         options: [{ min: 1, max: 100 }]
-//       },
-//       errorMessage: "Invalid Name- must be 2 to 100 characters long"
-//     },
-//     email: {
-//       isEmail: {
-//         errorMessage: "Invalid Email"
-//       }
-//     },
-//     birthYear: {
-//       validateYear: {
-//         options: { minYear: 1900, maxYear: 2017 }
-//       },
-//       errorMessage: "Invalid Birth Year"
-//     },
-//     job: {
-//       notEmpty: true,
-//       errorMessage: "Invalid Job"
-//     }
-//   })

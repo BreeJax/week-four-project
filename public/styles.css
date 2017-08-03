@@ -1,13 +1,13 @@
 body {
   background-color: lightblue;
   padding: 3em;
-  letter-spacing: 3px;
 }
 h1 {
   padding-left: 30%;
 }
 h2 {
   text-align: center;
+  letter-spacing: 3px;
 }
 
 .header {
