@@ -3,7 +3,8 @@ body {
   padding: 3em;
 }
 h1 {
-  padding-left: 30%;
+  width: 100%;
+  text-align: center;
 }
 h2 {
   text-align: center;
@@ -17,7 +18,13 @@ h2 {
 }
 .textGuess {
   width: 100%;
-  padding: 1em 0 0 30%;
+  display: flex;
+  justify-content: center;
+}
+input {
+  height: 2em;
+  width: 3em;
+  margin-right: 0.5em;
 }
 .levels {
   margin-left: 5%;
@@ -35,5 +42,4 @@ button {
   width: 7em;
 }
 h4 {
-  padding-left: 30%;
 }
